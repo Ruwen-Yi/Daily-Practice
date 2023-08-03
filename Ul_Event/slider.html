@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        .slider {
+            border-radius: 5px;
+            background: #E0E0E0;
+            background: linear-gradient(left top, #E0E0E0, #EEEEEE);
+            width: 310px;
+            height: 15px;
+            margin: 5px;
+        }
+
+        .thumb {
+            width: 10px;
+            height: 25px;
+            border-radius: 3px;
+            position: relative;
+            left: 10px;
+            top: -5px;
+            background: blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="slider" class="slider">
+        <div class="thumb"></div>
+    </div>
+
+</body>
+<script>
+    let thumb = document.getElementsByClassName('thumb')[0];
+
+    thumb.onmousedown = function (event) {
+        event.preventDefault(); // prevent selection start (browser action)
+        let shiftX = event.clientX - thumb.getBoundingClientRect().left;
+
+        document.onmousemove = function (event) {
+            let newLeft = event.clientX - slider.getBoundingClientRect().left - shiftX;
+            let leftEdge = 0;
+            let rightEdge = slider.offsetWidth - thumb.offsetWidth;
+
+            thumb.style.left = Math.min(Math.max(leftEdge, newLeft), rightEdge) + 'px';
+        }
+
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+
+    thumb.ondragstart = function () {
+        return false;
+    };
+</script>
+
+</html>
