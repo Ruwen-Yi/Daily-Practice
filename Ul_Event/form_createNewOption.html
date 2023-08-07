@@ -1,0 +1,16 @@
+<!doctype html>
+<body>
+<select id="genres">
+  <option value="rock">Rock</option>
+  <option value="blues" selected>Blues</option>
+</select>
+
+<script>
+  console.log(genres.value);
+
+  let newOption = new Option('Classic','classic')
+  genres.append(newOption);
+  newOption.selected = true;
+
+</script>
+</body>
