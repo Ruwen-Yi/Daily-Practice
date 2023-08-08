@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    #mouse {
+      display: inline-block;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    #mouse:focus {
+      outline: 1px dashed black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p>用鼠标点击以下老鼠，并使用键盘的方向键移动它。</p>
+
+  <pre id="mouse">
+ _   _
+(q\_/p)
+ /. .\
+=\_t_/=   __
+ /   \   (
+((   ))   )
+/\) (/\  /
+\  Y  /-'
+ nn^nn
+</pre>
+
+
+  <script>
+    mouse.tabIndex = 0;
+    mouse.onfocus = (e)=>{
+    	mouse.style.top = mouse.getBoundingClientRect().top + 'px';
+    	mouse.style.left = mouse.getBoundingClientRect().left + 'px';
+    	mouse.style.position = 'absolute';
+    
+    	mouse.onkeydown = (e)=>{ 
+    		movement[e.key]?.(mouse);  
+    		return false;
+    	};
+    	
+    	mouse.onblur = (e)=>{ 
+    		mouse.onkeydown = ''; 
+    	}
+    }
+    let movement = {
+    	ArrowUp(elem){
+    		elem.style.top = parseFloat(getComputedStyle(elem)['top']) - 0.5*elem.offsetHeight + 'px';
+    	},
+    
+    	ArrowDown(elem){
+    		elem.style.top = parseFloat(getComputedStyle(elem)['top']) + 0.5*elem.offsetHeight + 'px';
+    	},
+    
+    	ArrowLeft(elem){
+    		elem.style.left = parseFloat(getComputedStyle(elem)['left']) - 0.5*elem.offsetWidth + 'px';
+    	},
+    
+    	ArrowRight(elem){
+    		elem.style.left = parseFloat(getComputedStyle(elem)['left']) + 0.5*elem.offsetWidth + 'px';
+    	}
+    }
+  </script>
+
+</body>
+</html>
