@@ -90,8 +90,9 @@
 </head>
 
 <body>
-  <link rel="stylesheet" href="bagua.css">
-  <link rel="stylesheet" href="my.css">
+  <div class="edit-btns" hidden>
+    <button class="edit-btns-ok">OK</button><button class="edit-btns-cancel">CANCEL</button>
+  </div>
 
 
   <p>Click on a table cell to edit it. Press OK or CANCEL when you finish.</p>
@@ -154,10 +155,70 @@
 
   </table>
 
-  <div class="edit-btns" hidden>
-    <button class="edit-btns-ok">OK</button><button class="edit-btns-cancel">CANCEL</button>
-  </div>
-  <script src="script.js"></script>
+  
+  <script>
+    let table = document.getElementById('bagua-table');
+    let currentEdit = null;
+    let originalHtml = null;
+    
+    table.onclick = (e)=>{
+    	if (currentEdit) return; // if editing sth
+    
+    	let td = e.target.closest('td');
+    	if (!td) return;		// if not clicking a td
+    
+    	// if click the content inside the td
+    	currentEdit = td;
+    	td.classList.add('edit-td');
+    
+    	// 1. save td content
+    	originalHtml = td.innerHTML;
+    
+    	// 2. replace td content with a textarea
+    	let textArea = document.createElement('textarea');
+    	textArea.value = td.innerHTML;
+    
+    	textArea.classList.add('edit-area');
+    	textArea.style.height = td.clientHeight + 'px';
+    	textArea.style.width = td.clientWidth + 'px';
+    
+    	td.innerHTML = '';
+    	td.prepend(textArea);
+    
+    	// 3. attach buttons to the td
+    	let buttons = document.getElementsByClassName('edit-btns')[0];
+    	td.append(buttons);
+    
+    	buttons.style.top = td.offsetHeight + 'px';
+    	buttons.style.left = '0px';
+    	buttons.hidden = false;
+    }
+    
+    
+    let buttons = document.getElementsByClassName('edit-btns')[0];
+    buttons.onclick = (e)=>{
+    	if (e.target.tagName != 'BUTTON') return;
+    
+    	let td = e.target.closest('td');
+    	let clickedBtn = e.target.className;
+    
+    	// move and hide the button first
+    	buttons.hidden = true;
+    	document.body.prepend(buttons);
+    
+    	// check which btn is clicked
+    	if(clickedBtn === 'edit-btns-ok') {
+    		td.innerHTML = document.getElementsByClassName('edit-area')[0].value;
+    	}
+    	else if (clickedBtn === 'edit-btns-cancel') {
+    		td.innerHTML = originalHtml;
+    	}
+    
+    	// edit finished
+    	currentEdit = null;
+    }
+
+  </script>
 
 </body>
 
