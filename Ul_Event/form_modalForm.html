@@ -78,7 +78,88 @@
 </body>
 
 <script>
+  let showBtn = document.getElementById('show-button');
+  showBtn.onclick = ()=>{
+  	showPrompt("Enter something<br>...smart :)", function(value) {
+  	alert(value);
+    });
+  }
   
+  
+  function showPrompt(html, callback){
+  	showForm();
+  	
+  	let promptMessage = document.getElementById('prompt-message');
+  	promptMessage.innerHTML = html; 
+  
+  
+  	let form = document.getElementById('prompt-form');
+  
+  	focusOnForm(form);
+  	
+  	form.onclick = (e)=>{
+  		if (e.target.value === 'Cancel') {
+  			callback(null);
+  		}
+  		else if (e.target.value === 'Ok') {
+  			callback(form.text.value);
+  		}
+  		else {
+  			return;
+  		}
+  
+  		hideFrom();
+  	}
+  
+  	form.onkeydown = (e)=>{
+  		if (e.key === 'Escape') {
+  			callback(null);
+  		}
+  		else if (e.key === 'Enter') {
+  			callback(form.text.value);
+  		}
+  		else {
+  			return;
+  		}
+  
+  		hideForm();
+  	}
+  }
+  
+  function focusOnForm(form){
+  	let firstElem = form.elements[0];
+  	let lastElem = form.elements[form.elements.length - 1];
+  
+  	firstElem.focus();
+  
+  	firstElem.onkeydown = (e)=>{
+  		if(e.key === 'Tab' && e.shiftKey) {
+  			lastElem.focus();	
+  			return false;	// if do not prevent default behavior, tab will keep going up to the second element
+  		}
+  	}
+  
+  	lastElem.onkeydown = (e)=>{
+  		if(e.key === 'Tab' && !e.shiftKey) {
+  			firstElem.focus();
+  			return false;	// if do not prevent default behavior, tab will keep going down to the second element
+  		}
+  	}
+  }
+  
+  function showForm(){
+  	document.getElementById('cover-div').hidden = false;
+  
+  	document.getElementById('prompt-form-container').hidden = false;
+  
+  
+  }
+  
+  function hideForm(){
+  	document.getElementById('cover-div').hidden = true;
+  
+  	document.getElementById('prompt-form-container').hidden = true;
+  }
 </script>
 
 </html>
