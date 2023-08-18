@@ -7,3 +7,21 @@ function loadScript(src, callback) {
   
     document.head.append(script);
 }
+
+let loadScriptPromisified = function(src) {
+  return new Promise((resolve, reject) => {
+
+    loadScript(src, (err, script) => {
+      if (err) reject(err);
+      else resolve(script);
+    });
+  });
+};
+
+loadScriptPromisified('path/script.js')
+  .then(script => {
+    console.log('Script loaded:', script);
+  })
+  .catch(error => {
+    console.error('An error occurred:', error);
+  });
