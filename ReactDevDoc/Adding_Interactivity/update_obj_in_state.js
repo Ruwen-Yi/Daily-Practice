@@ -9,3 +9,25 @@ let onPointerMove = (e)=> {
       y: e.clientY
     });
 }
+
+
+// shallow copy an obj
+const [person, setPerson] = useState({
+    firstName: 'Barbara',
+    lastName: 'Hepworth',
+    email: 'bhepworth@sculpture.com'
+});
+
+let onFirstNameChange = (e)=>{ 
+    setPerson({
+        ...person,  // 复制上一个 person 中的所有字段
+        firstName: e.target.value   // 但是覆盖 firstName 字段 
+    });
+}
+// or:
+function handleChange(e) {
+    setPerson({
+      ...person,    // 复制上一个 person 中的所有字段
+      [e.target.name]: e.target.value   // 但是覆盖 目标 字段 
+    });
+}
