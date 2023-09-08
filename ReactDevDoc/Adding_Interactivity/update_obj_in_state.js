@@ -1,3 +1,4 @@
+
 // replace the obj in state instead of mutating it
 const [position, setPosition] = useState({
     x: 0,
@@ -11,7 +12,7 @@ let onPointerMove = (e)=> {
 }
 
 
-// shallow copy an obj
+// copy a flat obj
 const [person, setPerson] = useState({
     firstName: 'Barbara',
     lastName: 'Hepworth',
@@ -31,3 +32,30 @@ function handleChange(e) {
       [e.target.name]: e.target.value   // 但是覆盖 目标 字段 
     });
 }
+
+
+// copy a nested obj
+const [user, setUser] = useState({
+    name: 'Niki de Saint Phalle',
+    artwork: {
+      title: 'Blue Nana',
+      city: 'Hamburg',
+      image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+    }
+});
+function handleNameChange(e) {
+    setUser({
+      ...user,
+      name: e.target.value
+    });
+}
+function handleArtworkChange(e) {
+    setUser({
+        ...user,
+        artwork: {
+          ...user.artwork,
+          [e.target.name]: e.target.value
+        }
+    });
+}
+
