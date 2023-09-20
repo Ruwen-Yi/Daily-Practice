@@ -39,3 +39,19 @@ export default function Chat() {
     </>
   );
 }
+
+
+// challenge 2 (wrong code)
+import { useRef } from 'react';
+
+export default function Toggle() {
+  const isOnRef = useRef(false);
+
+  return (
+    <button onClick={() => {
+      isOnRef.current = !isOnRef.current;
+    }}>
+      {isOnRef.current ? '开' : '关'}  {/* variable is used when rendering, so, use state instead of ref */}
+    </button>
+  );
+}
