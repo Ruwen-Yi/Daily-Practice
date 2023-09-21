@@ -202,3 +202,45 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
+
+// challenge 4
+
+// App.js
+import SearchButton from './SearchButton.js';
+import {SearchInput} from './SearchInput.js';
+import {useRef} from 'react';
+export default function Page() {
+  const inputRef = useRef(null);
+  function handleClick(){
+    inputRef.current.focus();
+  }
+  return (
+    <>
+      <nav>
+        <SearchButton onClick={handleClick}/>
+      </nav>
+      <SearchInput ref={inputRef}/>
+    </>
+  );
+}
+
+
+// SearchButton.js
+export default function SearchButton({onClick}) {
+  return (
+    <button onClick={onClick}>
+      搜索
+    </button>
+  );
+}
+
+// SearchInput.js
+import {forwardRef} from 'react'
+export const SearchInput = forwardRef((props,ref)=>{
+  return (
+    <input
+      placeholder="找什么呢？"
+      ref={ref}
+    />
+  );
+})
