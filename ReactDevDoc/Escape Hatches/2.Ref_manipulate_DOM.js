@@ -35,3 +35,26 @@ export default function VideoPlayer() {
     </>
   )
 }
+
+
+// challenge 2
+import { useRef } from 'react';
+
+export default function Page() {
+  const inputRef = useRef(null);
+  return (
+    <>
+      <nav>
+        <button onClick={() => {
+          inputRef.current.focus();
+        }}>
+          search
+        </button>
+      </nav>
+      <input
+        ref={inputRef}
+        placeholder="what are you searching for?"
+      />
+    </>
+  );
+}
