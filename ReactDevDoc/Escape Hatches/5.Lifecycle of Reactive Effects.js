@@ -47,3 +47,51 @@ export default function App() {
     </>
   );
 }
+
+
+
+// challenge 2
+import { useState, useEffect } from 'react';
+
+export default function App() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [canMove, setCanMove] = useState(true);
+
+  // canMove is a reactive variable that you read inside the Effect. 
+  // This is why it must be specified in the list of Effect dependencies. 
+  // This ensures that the Effect re-synchronizes after every change to its value.
+  useEffect(() => {
+    function handleMove(e) {
+      setPosition({ x: e.clientX, y: e.clientY });
+    }
+    if (canMove) {
+      window.addEventListener('pointermove', handleMove);
+      return () => window.removeEventListener('pointermove', handleMove);
+    }
+  }, [canMove]);
+
+  return (
+    <>
+      <label>
+        <input type="checkbox"
+          checked={canMove}
+          onChange={e => setCanMove(e.target.checked)} 
+        />
+        是否允许移动
+      </label>
+      <hr />
+      <div style={{
+        position: 'absolute',
+        backgroundColor: 'pink',
+        borderRadius: '50%',
+        opacity: 0.6,
+        transform: `translate(${position.x}px, ${position.y}px)`,
+        pointerEvents: 'none',
+        left: -20,
+        top: -20,
+        width: 40,
+        height: 40,
+      }} />
+    </>
+  );
+}
