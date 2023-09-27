@@ -144,3 +144,31 @@ export default function App() {
     </>
   );
 }
+
+
+// challenge 4
+// ChatRoom.js
+
+// the App.js passes a boolean prop instead of a function to ChatRoom.js
+// Inside the Effect, decide which function to use: createEncryptedConnection or createUnencryptedConnection
+// Since both createEncryptedConnection and createUnencryptedConnection are declared outside the component, 
+// they aren’t reactive, and don’t need to be dependencies.
+import { useState, useEffect } from 'react';
+import {
+  createEncryptedConnection,
+  createUnencryptedConnection,
+} from './chat.js';
+
+export default function ChatRoom({ roomId, isEncrypted }) {
+  useEffect(() => {
+    const createConnection = isEncrypted ?
+      createEncryptedConnection :
+      createUnencryptedConnection;
+    const connection = createConnection(roomId);
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId, isEncrypted]);
+
+  return <h1>欢迎来到 {roomId} 聊天室！</h1>;
+}
+
