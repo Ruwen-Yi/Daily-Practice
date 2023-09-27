@@ -192,3 +192,111 @@ export const initialTodos = [
   createTodo('买橘子', true),
   createTodo('买胡萝卜'),
 ];
+
+
+
+
+// challenge 3 question: Reset state without Effects
+import { useState, useEffect } from 'react';
+
+export default function EditContact({ savedContact, onSave }) {
+  const [name, setName] = useState(savedContact.name);
+  const [email, setEmail] = useState(savedContact.email);
+
+  useEffect(() => {
+    setName(savedContact.name);
+    setEmail(savedContact.email);
+  }, [savedContact]);
+
+  return (
+    <section>
+      <label>
+        姓名：{' '}
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+      </label>
+      <label>
+        邮箱：{' '}
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </label>
+      <button onClick={() => {
+        const updatedData = {
+          id: savedContact.id,
+          name: name,
+          email: email
+        };
+        onSave(updatedData);
+      }}>
+        保存
+      </button>
+      <button onClick={() => {
+        setName(savedContact.name);
+        setEmail(savedContact.email);
+      }}>
+        重置
+      </button>
+    </section>
+  );
+}
+
+
+// challenge 3 answer
+import { useState } from 'react';
+
+export default function EditContact(props) {
+  return (
+    <EditForm
+      {...props}
+      key={props.savedContact.id}
+    />
+  );
+}
+
+function EditForm({ savedContact, onSave }) {
+  const [name, setName] = useState(savedContact.name);
+  const [email, setEmail] = useState(savedContact.email);
+
+  return (
+    <section>
+      <label>
+        姓名：{' '}
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+      </label>
+      <label>
+        邮箱：{' '}
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </label>
+      <button onClick={() => {
+        const updatedData = {
+          id: savedContact.id,
+          name: name,
+          email: email
+        };
+        onSave(updatedData);
+      }}>
+        保存
+      </button>
+      <button onClick={() => {
+        setName(savedContact.name);
+        setEmail(savedContact.email);
+      }}>
+        重置
+      </button>
+    </section>
+  );
+}
