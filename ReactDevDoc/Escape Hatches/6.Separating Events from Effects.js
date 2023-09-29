@@ -5,6 +5,9 @@ export default function Timer() {
   const [count, setCount] = useState(0);
   const [increment, setIncrement] = useState(1);
 
+  // Add increment to the dependency array.
+  // When increment changes, 
+  // React will re-synchronize your Effect, which will restart the interval.
   useEffect(() => {
     const id = setInterval(() => {
       setCount(c => c + increment);
