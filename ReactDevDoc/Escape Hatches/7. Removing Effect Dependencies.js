@@ -83,3 +83,23 @@ export default function App() {
     </>
   );
 }
+
+
+
+// challenge 3
+import { useState, useEffect } from 'react';
+import { createConnection } from './chat.js';
+
+// Sticking to primitive props where possible makes it easier to optimize your components later.
+export default function ChatRoom({ roomId, serverUrl }) {
+  useEffect(() => {
+    const connection = createConnection({
+      roomId: roomId,
+      serverUrl: serverUrl
+    });
+    connection.connect();
+    return () => connection.disconnect();
+  }, [roomId, serverUrl]);
+
+  return <h1>欢迎来到 {roomId} 房间！</h1>;
+}
