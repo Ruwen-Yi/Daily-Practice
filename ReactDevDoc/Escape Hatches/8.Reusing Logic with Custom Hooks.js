@@ -25,6 +25,10 @@ export function useCounter() {
 
 
 
+
+
+
+
 // challenge 2
 
 // App.js
@@ -66,4 +70,50 @@ export function useCounter(delay) {
     return () => clearInterval(id);
   }, [delay]);
   return count;
+}
+
+
+
+
+
+// challenge 4
+
+// App.js
+import { useCounter } from './useCounter.js';
+import { useInterval } from './useInterval.js';
+
+export default function Counter() {
+  const count = useCounter(1000);
+
+  useInterval(() => {
+    const randomColor = `hsla(${Math.random() * 360}, 100%, 50%, 0.2)`;
+    document.body.style.backgroundColor = randomColor;
+  }, 2000);
+
+  return <h1>Seconds passed: {count}</h1>;
+}
+
+// useCounter.js
+import { useState } from 'react';
+import { useInterval } from './useInterval.js';
+
+export function useCounter(delay) {
+  const [count, setCount] = useState(0);
+  useInterval(() => {
+    setCount(c => c + 1);
+  }, delay);
+  return count;
+}
+
+// useInterval.js
+// the page background color change interval won’t get reset every second before it has a chance to fire.
+import { useEffect } from 'react';
+import { experimental_useEffectEvent as useEffectEvent } from 'react';
+
+export function useInterval(callback, delay) {
+  const onTick = useEffectEvent(callback);
+  useEffect(() => {
+    const id = setInterval(onTick, delay);
+    return () => clearInterval(id);
+  }, [delay]);
 }
